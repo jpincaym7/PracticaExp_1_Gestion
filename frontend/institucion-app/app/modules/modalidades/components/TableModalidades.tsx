@@ -4,7 +4,13 @@ import React, { useEffect, useState } from "react";
 import DataTable, { type DataTableColumn, type DataTableAction } from "@/shared/components/Datatable";
 import DeleteConfirm from "@/shared/components/DeleteConfirm";
 import FormModalidades from "./forms/FormModalidades";
-import FormDrawer from "@/shared/components/FormDrawer";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+} from "@/shared/components/ui/dialog";
 import type { Modalidad } from "@/shared/types/modalidad";
 import { modalidadService } from "@/modules/modalidades/services/modalidad.service";
 import { formatApiErrors } from "@/shared/core/api";
@@ -24,7 +30,7 @@ export default function TableModalidades() {
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const [modalidadToDelete, setModalidadToDelete] = useState<Modalidad | null>(null);
   const [isDeleting, setIsDeleting] = useState(false);
-  
+
   const [showHardDeleteConfirm, setShowHardDeleteConfirm] = useState(false);
   const [modalidadToHardDelete, setModalidadToHardDelete] = useState<Modalidad | null>(null);
   const [isHardDeleting, setIsHardDeleting] = useState(false);
@@ -36,8 +42,8 @@ export default function TableModalidades() {
   const loadModalidades = async () => {
     try {
       setIsLoading(true);
-      const response = estadoFiltro === 'activos' 
-        ? await modalidadService.list() 
+      const response = estadoFiltro === 'activos'
+        ? await modalidadService.list()
         : await modalidadService.listInactivas();
       setModalidades(response.data);
     } catch (error) {
@@ -184,18 +190,21 @@ export default function TableModalidades() {
         />
       </div>
 
-      <FormDrawer
-        open={showForm}
-        onOpenChange={setShowForm}
-        title={modalidadToEdit ? "Editar Modalidad" : "Nueva Modalidad"}
-        description={modalidadToEdit ? "Modifica los datos de la modalidad" : "Complete los datos para crear una nueva modalidad"}
-      >
-        <FormModalidades
-          modalidadId={modalidadToEdit?.id}
-          onSuccess={handleFormSuccess}
-          onCancel={handleCloseForm}
-        />
-      </FormDrawer>
+      <Dialog open={showForm} onOpenChange={setShowForm}>
+        <DialogContent className="sm:max-w-lg">
+          <DialogHeader>
+            <DialogTitle>{modalidadToEdit ? "Editar Modalidad" : "Nueva Modalidad"}</DialogTitle>
+            <DialogDescription>
+              {modalidadToEdit ? "Modifica los datos de la modalidad" : "Complete los datos para crear una nueva modalidad"}
+            </DialogDescription>
+          </DialogHeader>
+          <FormModalidades
+            modalidadId={modalidadToEdit?.id}
+            onSuccess={handleFormSuccess}
+            onCancel={handleCloseForm}
+          />
+        </DialogContent>
+      </Dialog>
 
       <DeleteConfirm
         open={showDeleteConfirm}
