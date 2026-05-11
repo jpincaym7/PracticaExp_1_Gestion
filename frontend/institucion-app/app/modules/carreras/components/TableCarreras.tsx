@@ -4,7 +4,13 @@ import React, { useEffect, useState } from "react";
 import DataTable, { type DataTableColumn, type DataTableAction } from "@/shared/components/Datatable";
 import DeleteConfirm from "@/shared/components/DeleteConfirm";
 import FormCarreras from "./forms/FormCarreras";
-import FormDrawer from "@/shared/components/FormDrawer";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+} from "@/shared/components/ui/dialog";
 import type { Carrera } from "@/shared/types/carrera";
 import type { Modalidad } from "@/shared/types/modalidad";
 import { carreraService } from "@/modules/carreras/services/carrera.service";
@@ -188,14 +194,17 @@ export default function TableCarreras({ onView }: TableCarrerasProps) {
         }
       />
 
-      <FormDrawer
-        open={showForm}
-        onOpenChange={setShowForm}
-        title={carreraToEdit ? "Editar Carrera" : "Nueva Carrera"}
-        description={carreraToEdit ? "Modifica los datos de la carrera" : "Complete los datos para crear una nueva carrera"}
-      >
-        <FormCarreras carreraId={carreraToEdit?.id} onSuccess={handleFormSuccess} onCancel={handleCloseForm} />
-      </FormDrawer>
+      <Dialog open={showForm} onOpenChange={setShowForm}>
+        <DialogContent className="sm:max-w-lg">
+          <DialogHeader>
+            <DialogTitle>{carreraToEdit ? "Editar Carrera" : "Nueva Carrera"}</DialogTitle>
+            <DialogDescription>
+              {carreraToEdit ? "Modifica los datos de la carrera" : "Complete los datos para crear una nueva carrera"}
+            </DialogDescription>
+          </DialogHeader>
+          <FormCarreras carreraId={carreraToEdit?.id} onSuccess={handleFormSuccess} onCancel={handleCloseForm} />
+        </DialogContent>
+      </Dialog>
 
       <DeleteConfirm
         open={deleteConfirm.show}
