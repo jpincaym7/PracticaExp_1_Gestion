@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import Header from "./Header";
 import Sidebar from "./Sidebar";
 import Footer from "./Footer";
@@ -22,16 +22,17 @@ export default function AppLayout({
   ];
 
   const navigation = navItems.length > 0 ? navItems : defaultNavItems;
+  const [mobileOpen, setMobileOpen] = useState(false);
 
   return (
     <ToastProvider>
       <div className="min-h-screen bg-gray-50">
         {/* Header */}
-        <Header title={title} navigation={navigation} />
+        <Header title={title} navigation={navigation} onToggleMobile={() => setMobileOpen((prev) => !prev)} />
 
         <div className="flex">
           {/* Sidebar (opcional) */}
-          {showSidebar && <Sidebar navigation={navigation} />}
+          {showSidebar && <Sidebar navigation={navigation} mobileOpen={mobileOpen} onMobileClose={() => setMobileOpen(false)} />}
 
           {/* Contenido Principal */}
           <main className="flex-1 p-4 sm:p-6 lg:p-8">

@@ -35,6 +35,7 @@ export interface HeaderProps {
   navigation: NavItem[];
   logo?: ReactNode;
   actions?: ReactNode;
+  onToggleMobile?: () => void;
 }
 
 /**
@@ -44,6 +45,8 @@ export interface SidebarProps {
   navigation: NavItem[];
   header?: ReactNode;
   footer?: ReactNode;
+  mobileOpen?: boolean;
+  onMobileClose?: () => void;
 }
 
 /**

@@ -8,7 +8,7 @@ import { GraduationCap, Menu } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "../ui/button";
 
-export default function Header({ title, navigation }: HeaderProps) {
+export default function Header({ title, navigation, onToggleMobile }: HeaderProps) {
   const pathname = usePathname();
 
   return (
@@ -58,7 +58,7 @@ export default function Header({ title, navigation }: HeaderProps) {
           </nav>
 
           {/* Menú móvil */}
-          <Button variant="ghost" size="icon" className="md:hidden text-muted-foreground hover:text-foreground">
+          <Button variant="ghost" size="icon" className="md:hidden text-muted-foreground hover:text-foreground" onClick={onToggleMobile}>
             <Menu className="w-5 h-5" />
           </Button>
         </div>
