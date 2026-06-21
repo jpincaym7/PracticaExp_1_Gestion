@@ -30,7 +30,9 @@ import os
 # --------------------------------------
 
 env = environ.Env()
-environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
+_env_file = os.path.join(BASE_DIR, '.env')
+if os.path.exists(_env_file):
+    environ.Env.read_env(_env_file)
 
 
 # SECURITY WARNING: keep the secret key used in production secret!
