@@ -21,6 +21,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+    image: institucion-backend:latest
     container_name: institucion_web
     restart: unless-stopped
     ports:
