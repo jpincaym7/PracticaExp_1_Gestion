@@ -181,13 +181,14 @@ COPY . .
 
 EXPOSE 8000
 
-ENTRYPOINT ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
 ```
 
 **Decisiones de diseño:**
 - `python:3.10-slim` en lugar de `python:3.10` reduce el tamaño ~60%
 - `PYTHONDONTWRITEBYTECODE` y `PYTHONUNBUFFERED` son mejores prácticas para contenedores
 - `libpq-dev` y `gcc` son requeridos por `psycopg2-binary` para compilar
+- Se usa `CMD` (no `ENTRYPOINT`) para que `docker-compose.yml` pueda sobreescribir el comando de inicio
 
 ---
 
